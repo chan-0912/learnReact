@@ -1,30 +1,24 @@
-import React,{useState} from "react";
+import React, { useState,useCallback } from "react";
 import Button from "./Button.jsx";
 import Text from "./Text.jsx";
 
 // console.log(Button("hello"));
 const App = () => {
-  const [data,setData] = useState([
-    {id:'a', text: "text 0"},
-    {id:'b', text: "text 1"},
-    {id:'c', text: "text 2"},
-    {id:'d', text: "text 3"},
+  const [message, updateMessage] = useState("Hey user, Good Morning!");
 
-  ]);
-  const addMoreData = () => {
-    setData ((prevData)=>[...prevData,{id:'e', text: "text 4"}]);
-  };
+  const changeMessage = useCallback(() => {
+    // console.log("Before function Clicked, Message: ", message);
+    updateMessage ((prevData)=>{
+      console.log("Previous message was ",prevData);
+      return "Hey user, Good Evening!";
+    });
+    // console.log("After function Clicked, Message: ", message);
+  },[]);
+  console.log(message);
   return (
     <>
-    {
-      data.map((item,index)=><Text key={item.id}>{item.text}</Text>)
-    }
-    
-    <Button 
-      clickAction={addMoreData}
-    >
-      Click me!
-    </Button>
+      <div>{message}</div>
+      <Button clickAction={changeMessage}> Change the Message </Button>
     </>
   );
 };
